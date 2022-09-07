@@ -1,25 +1,32 @@
-import logo from './logo.svg';
 import './App.css';
+import getData from "./resources/getJasonData"
+import Cards from './components/Card';
+import { useState } from 'react';
 
 function App() {
+  const [response, setResponse] = useState([]);
+
+  getData.then(value => {
+    console.log(value)
+    setResponse([...value.data])
+  }
+  ).catch(error => console.error(error))
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        {
+          response?.map(function (value) {
+            return (<Cards title={value.title} id={value.id} body={value.body} />);
+          })
+        }
       </header>
     </div>
   );
 }
+
+
+
+
 
 export default App;
